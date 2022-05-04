@@ -2,7 +2,15 @@
  class View{
   constructor(model) {
     this.model = model;
-    this.mainContainerEl = document.querySelector('#main-container')
+    this.mainContainerEl = document.querySelector('#main-container');
+    this.inputButtonEl = document.querySelector('#add-note');
+    this.inputEl = document.querySelector('#new-note');
+    this.inputButtonEl.addEventListener('click', () => {
+      model.addNote(this.inputEl.value);  
+      this.displayNotes();
+        
+    });
+
   }
 
   displayNotes(){

@@ -17,4 +17,16 @@ describe('views', () => {
     view.displayNotes();
     expect(document.querySelectorAll('div.note').length).toBe(2)
   });
+  it('let user to add notes', () => {
+    document.body.innerHTML = fs.readFileSync('./index.html');
+
+    const model = new Model();
+    const view = new View(model);
+    const inputEl = document.querySelector('#new-note');
+    const addButtonEl = document.querySelector('#add-note');
+    inputEl.value = 'My first note';
+    addButtonEl.click()
+    expect(document.querySelectorAll('.note').length).toBe(1)
+
+  });
 });
