@@ -8,12 +8,17 @@
     this.inputButtonEl.addEventListener('click', () => {
       model.addNote(this.inputEl.value);  
       this.displayNotes();
-        
+      this.inputEl.value = '';
     });
 
   }
 
   displayNotes(){
+    const old_notes = document.querySelectorAll('.note');
+    old_notes.forEach( note => {
+      note.remove();
+    });
+
     const notes = this.model.getNotes();
     
     notes.forEach( note => {

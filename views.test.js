@@ -17,6 +17,7 @@ describe('views', () => {
     view.displayNotes();
     expect(document.querySelectorAll('div.note').length).toBe(2)
   });
+
   it('let user to add notes', () => {
     document.body.innerHTML = fs.readFileSync('./index.html');
 
@@ -27,6 +28,20 @@ describe('views', () => {
     inputEl.value = 'My first note';
     addButtonEl.click()
     expect(document.querySelectorAll('.note').length).toBe(1)
+
+  });
+  it('refreshes the page to show onl yone copy of each note', () => {
+    document.body.innerHTML = fs.readFileSync('./index.html');
+
+    const model = new Model();
+    const view = new View(model);
+    const inputEl = document.querySelector('#new-note');
+    const addButtonEl = document.querySelector('#add-note');
+    inputEl.value = 'My first note';
+    addButtonEl.click()
+    inputEl.value = 'My second name';
+    addButtonEl.click();
+    expect(document.querySelectorAll('.note').length).toBe(2)
 
   });
 });
