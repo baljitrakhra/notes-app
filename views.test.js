@@ -5,8 +5,17 @@
 const fs = require('fs');
 const Model = require('./notesModel');
 const View = require('./view');
+const NotesApi = require('./notesApi');
+
+require('jest-fetch-mock').enableFetchMocks()
+jest.mock("./notesApi");
+
 
 describe('views', () => {
+
+  beforeEach(() => {
+    NotesApi.mockClear();
+  });
   it('displays 2 notes', () => {
     document.body.innerHTML = fs.readFileSync('./index.html');
     
@@ -43,5 +52,25 @@ describe('views', () => {
     addButtonEl.click();
     expect(document.querySelectorAll('.note').length).toBe(2)
 
+  });
+  describe('notes from API', () =>{
+    it('displays the notes from data recieved from API', () =>{
+      document.body.innerHTML = fs.readFileSync('./index.html');
+
+      const model = new Model();
+      const mockNotesApi = new NotesApi();
+
+      const view = new View(model,mockNotesApi);
+      
+      // let notes = ['this is a note'];
+      // model.setNotes(notes);
+      mockNotesApi.loadNotes.mockImplementation(() => [
+        'this is a note'
+      ]); 
+      view.displayNotesFromApi();
+      expect(model.setNotes()).toHaveBeenCalledTimes(1);
+      expect(document.querySelectorAll('.note').length).toBe(1);
+
+    });
   });
 });

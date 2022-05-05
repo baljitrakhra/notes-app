@@ -1,7 +1,10 @@
- const notesModel = require('./notesmodel')
+ const notesModel = require('./notesmodel');
+ const NotesApi = require('./notesApi');
+
  class View{
-  constructor(model) {
+  constructor(model, api) {
     this.model = model;
+    this.api = api;
     this.mainContainerEl = document.querySelector('#main-container');
     this.inputButtonEl = document.querySelector('#add-note');
     this.inputEl = document.querySelector('#new-note');
@@ -15,12 +18,12 @@
 
   displayNotes(){
     const old_notes = document.querySelectorAll('.note');
+    
     old_notes.forEach( note => {
       note.remove();
     });
 
     const notes = this.model.getNotes();
-    
     notes.forEach( note => {
       const noteEl = document.createElement('div');
       noteEl.innerText = note;
@@ -28,6 +31,14 @@
       this.mainContainerEl.append(noteEl);
     });
     
+  }
+
+  displayNotesFromApi() {
+    this.api.loadNotes((recievedData) => {
+      // console.log('I am here:',recievedData);
+      this.model.setNotes(recievedData);
+      this.displayNotes();
+    });
   }
 
  }
