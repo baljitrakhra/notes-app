@@ -72,4 +72,13 @@ describe('views', () => {
 
   });
 
+  describe('error', () => {
+    it('shows an error on the page if htere is one',() => {
+      const model = new Model();
+      const mockNotesApi = new NotesApi();
+      const view = new View(model, mockNotesApi);
+      view.displayError();
+      expect(document.querySelector('div.error').innerText).toEqual('Oops, something went wrong');
+    });
+  });
 });

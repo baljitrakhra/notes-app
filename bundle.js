@@ -33,9 +33,12 @@
   var require_notesApi = __commonJS({
     "notesApi.js"(exports, module) {
       var NotesApi2 = class {
-        loadNotes(callback) {
+        loadNotes(callback, errorCallBack) {
           fetch("http://localhost:3000/notes").then((response) => response.json()).then((data) => {
             callback(data);
+          }).catch((error) => {
+            console.log("Error:", error);
+            errorCallBack();
           });
         }
         latestNote(notes) {
@@ -101,7 +104,19 @@
           this.api.loadNotes((recievedData) => {
             this.model.setNotes(recievedData);
             this.displayNotes();
+          }, () => {
+            this.displayError();
           });
+        }
+        displayError() {
+          const oldErrors = document.querySelectorAll("div.error");
+          oldErrors.forEach((error) => {
+            error.remove();
+          });
+          let errorEl = document.createElement("div");
+          errorEl.innerText = "Oops, something went wrong";
+          errorEl.className = "error";
+          this.mainContainerEl.append(errorEl);
         }
       };
       module.exports = View2;
