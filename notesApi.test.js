@@ -20,10 +20,10 @@ describe('Notes class', () => {
     const api = new NotesApi;
     fetch.mockResponseOnce(
       JSON.stringify({
-        note: ['This is newly added note']
+        note: ('This is newly added note')
       }));
     api.createNote('This is newly added note', (test) => {
-      expect(test.note).toStrictEqual(['This is newly added note']);
+      expect(test.note).toBe('This is newly added note');
     });
 
    

@@ -52,9 +52,11 @@
             },
             body: JSON.stringify(note)
           }).then((response) => response.json()).then((data) => {
-            console.log("success:", callback(data));
+            console.log("success:", data);
+            callback(data);
           }).catch((error) => {
             console.log("Error:", error);
+            callback();
           });
         }
       };
@@ -80,12 +82,12 @@
           });
         }
         viewAddNotes(note) {
-          this.model.addNote(note);
           const newNote = {
             "content": note
           };
-          this.api.createNote(newNote);
-          this.displayNotes();
+          this.api.createNote(newNote, () => {
+            this.displayNotesFromApi();
+          });
         }
         displayNotes() {
           const old_notes = document.querySelectorAll(".note");

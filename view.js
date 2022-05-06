@@ -16,12 +16,13 @@
   }
 
   viewAddNotes(note) {
-    this.model.addNote(note);
     const newNote = {
       "content" : note
     }
-    this.api.createNote(newNote);
-    this.displayNotes();
+    this.api.createNote(newNote, ()=> {
+      this.displayNotesFromApi();
+    })
+    
   }
 
   displayNotes(){

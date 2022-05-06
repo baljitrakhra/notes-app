@@ -17,6 +17,7 @@ class NotesApi{
   }
 
   createNote(note, callback) {
+    
     fetch('http://localhost:3000/notes',{
     method: 'POST',
     headers: {
@@ -26,11 +27,13 @@ class NotesApi{
     })
     .then(response => response.json())
     .then(data => {
-      console.log('success:', callback(data));
+      console.log('success:', data);
+      callback(data);
     })
     .catch((error) => {
       console.log('Error:', error);
-    }); 
+      callback();
+    }) 
   }
 }
 
