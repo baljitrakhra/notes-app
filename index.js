@@ -7,5 +7,12 @@ const NotesApi = require('./notesApi');
 const model = new notesModel();
 const api = new NotesApi();
 const view = new View(model, api);
-view.displayNotesFromApi();
+
+api.loadNotes((note) => {
+  model.setNotes(note);
+  view.displayNotes();
+}, () => {
+    view.displayError();
+});
+
 // view.displayNotes();

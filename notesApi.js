@@ -35,6 +35,12 @@ class NotesApi{
       callback();
     }) 
   }
+  reset(callback) {
+    fetch('http://localhost:3000/notes', {
+      method: 'DELETE'
+    }).then(callback)
+  }
 }
+
 
 module.exports = NotesApi;

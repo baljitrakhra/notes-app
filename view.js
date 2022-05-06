@@ -12,6 +12,11 @@
       this.viewAddNotes(this.inputEl.value);  
       this.inputEl.value = '';
     });
+    this.resetButtonEl = document.querySelector('#reset');
+    this.resetButtonEl.addEventListener('click', () => {
+      this.api.reset(() =>
+        this.displayNotesFromApi())
+    });
 
   }
 
@@ -43,6 +48,7 @@
   }
 
   displayNotesFromApi() {
+    this.model.reset();
     this.api.loadNotes((recievedData) => {
       this.model.setNotes(recievedData);
       this.displayNotes();
