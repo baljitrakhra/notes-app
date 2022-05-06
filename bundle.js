@@ -38,6 +38,22 @@
             callback(data);
           });
         }
+        latestNote(notes) {
+          return notes[notes.length - 1];
+        }
+        createNote(note, callback) {
+          fetch("http://localhost:3000/notes", {
+            method: "POST",
+            headers: {
+              "content-Type": "application/json"
+            },
+            body: JSON.stringify(note)
+          }).then((response) => response.json()).then((data) => {
+            console.log("success:", callback(data));
+          }).catch((error) => {
+            console.log("Error:", error);
+          });
+        }
       };
       module.exports = NotesApi2;
     }
@@ -56,10 +72,17 @@
           this.inputButtonEl = document.querySelector("#add-note");
           this.inputEl = document.querySelector("#new-note");
           this.inputButtonEl.addEventListener("click", () => {
-            model2.addNote(this.inputEl.value);
-            this.displayNotes();
+            this.viewAddNotes(this.inputEl.value);
             this.inputEl.value = "";
           });
+        }
+        viewAddNotes(note) {
+          this.model.addNote(note);
+          const newNote = {
+            "content": note
+          };
+          this.api.createNote(newNote);
+          this.displayNotes();
         }
         displayNotes() {
           const old_notes = document.querySelectorAll(".note");
@@ -94,5 +117,4 @@
   var api = new NotesApi();
   var view = new View(model, api);
   view.displayNotesFromApi();
-  view.displayNotes();
 })();

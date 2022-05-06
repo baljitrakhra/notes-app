@@ -29,48 +29,47 @@ describe('views', () => {
 
   it('let user to add notes', () => {
     document.body.innerHTML = fs.readFileSync('./index.html');
-
+    const api = new NotesApi();
     const model = new Model();
-    const view = new View(model);
+    const view = new View(model,api);
     const inputEl = document.querySelector('#new-note');
     const addButtonEl = document.querySelector('#add-note');
     inputEl.value = 'My first note';
     addButtonEl.click()
-    expect(document.querySelectorAll('.note').length).toBe(1)
+    expect(document.querySelectorAll('div.note').length).toBe(1)
 
   });
   it('refreshes the page to show onl yone copy of each note', () => {
     document.body.innerHTML = fs.readFileSync('./index.html');
 
     const model = new Model();
-    const view = new View(model);
+    const api = new NotesApi();
+    const view = new View(model,api);
     const inputEl = document.querySelector('#new-note');
     const addButtonEl = document.querySelector('#add-note');
     inputEl.value = 'My first note';
     addButtonEl.click()
     inputEl.value = 'My second name';
     addButtonEl.click();
-    expect(document.querySelectorAll('.note').length).toBe(2)
+    expect(document.querySelectorAll('div.note').length).toBe(2)
 
   });
   describe('notes from API', () =>{
-    it('displays the notes from data recieved from API', () =>{
-      document.body.innerHTML = fs.readFileSync('./index.html');
-
-      const model = new Model();
-      const mockNotesApi = new NotesApi();
-
-      const view = new View(model,mockNotesApi);
-      
-      // let notes = ['this is a note'];
-      // model.setNotes(notes);
-      mockNotesApi.loadNotes.mockImplementation(() => [
-        'this is a note'
-      ]); 
-      view.displayNotesFromApi();
-      expect(model.setNotes()).toHaveBeenCalledTimes(1);
-      expect(document.querySelectorAll('.note').length).toBe(1);
-
-    });
+  
   });
+  it('let user to add notes', () => {
+    document.body.innerHTML = fs.readFileSync('./index.html');
+
+    const model = new Model();
+    const mockNotesApi = new NotesApi();
+    const view = new View(model, mockNotesApi);
+    
+    const inputEl = document.querySelector('#new-note');
+    const addButtonEl = document.querySelector('#add-note');
+    inputEl.value = 'My first note';
+    addButtonEl.click()
+    expect(document.querySelectorAll('div.note').length).toBe(1)
+
+  });
+
 });

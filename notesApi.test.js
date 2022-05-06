@@ -16,4 +16,16 @@ describe('Notes class', () => {
     });
 
   });
+  it('adds a note to backend server', () => {
+    const api = new NotesApi;
+    fetch.mockResponseOnce(
+      JSON.stringify({
+        note: ['This is newly added note']
+      }));
+    api.createNote('This is newly added note', (test) => {
+      expect(test.note).toStrictEqual('This is newly added note');
+    });
+
+   
+  });
 });

@@ -8,4 +8,4 @@ const model = new notesModel();
 const api = new NotesApi();
 const view = new View(model, api);
 view.displayNotesFromApi();
-view.displayNotes();
+// view.displayNotes();

@@ -31,11 +31,11 @@ describe('view with Api data', () => {
 
     const view = new View(mockModel,mockNotesApi);
     
-    mockNotesApi.loadNotes.mockImplementation(() => [
+    mockNotesApi.loadNotes.mockImplementation((callback) => callback([
       'this is a note'
-    ]); 
+    ])); 
     view.displayNotesFromApi();
-    // expect(mockModel.setNotes).toHaveBeenCalledTimes(1);
+    expect(mockModel.setNotes).toHaveBeenCalledTimes(1);
     expect(document.querySelectorAll('.note').length).toBe(1);
 
   });

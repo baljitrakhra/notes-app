@@ -9,11 +9,19 @@
     this.inputButtonEl = document.querySelector('#add-note');
     this.inputEl = document.querySelector('#new-note');
     this.inputButtonEl.addEventListener('click', () => {
-      model.addNote(this.inputEl.value);  
-      this.displayNotes();
+      this.viewAddNotes(this.inputEl.value);  
       this.inputEl.value = '';
     });
 
+  }
+
+  viewAddNotes(note) {
+    this.model.addNote(note);
+    const newNote = {
+      "content" : note
+    }
+    this.api.createNote(newNote);
+    this.displayNotes();
   }
 
   displayNotes(){
